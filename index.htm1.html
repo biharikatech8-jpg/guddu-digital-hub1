@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guddu Digital Hub</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f5fa;color:#172033;line-height:1.6}
+header{background:#102b55;color:white;padding:30px 20px;text-align:center}
+header h1{margin:0 0 8px;font-size:2.2rem}
+nav{background:#174b91;padding:8px;text-align:center;position:sticky;top:0;z-index:1000}
+nav a{color:white;text-decoration:none;margin:5px 10px;font-weight:bold;display:inline-block;padding:8px}
+.container{max-width:1000px;margin:auto;padding:20px}
+.hero{background:linear-gradient(120deg,#1555a5,#11a8b5);color:white;padding:35px 20px;border-radius:14px;text-align:center}
+button,.btn{background:#1264c5;color:white;border:0;padding:12px 18px;border-radius:7px;cursor:pointer;font-weight:bold;font-size:15px;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{opacity:.9}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:15px}
+.card{background:white;padding:22px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.07);border:1px solid #e1e6ef}
+input,select,textarea{width:100%;padding:12px;margin:8px 0 16px;border:1px solid #ccd4e0;border-radius:6px;font-size:15px}
+h2{color:#174b91;border-bottom:2px solid #174b91;padding-bottom:8px;margin-top:25px}
+.hidden{display:none!important}
+.action-buttons{margin-top:15px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.whatsapp-btn{background:#168a49}
+.call-btn{background:#007bff}
+.danger{background:#dc3545}
+.secondary{background:#64748b}
+.small{font-size:13px;color:#657085}
+footer{text-align:center;padding:25px;background:#102b55;color:white;margin-top:40px}
+.enquiry-item{background:#f8f9fa;padding:12px;border-left:4px solid #1264c5;margin-bottom:12px;border-radius:5px;overflow-wrap:anywhere}
+.notice{padding:12px;background:#edf5ff;border-radius:7px;font-size:14px}
+@media(max-width:600px){header h1{font-size:1.7rem}.container{padding:12px}.card{padding:16px}}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>Guddu Digital Hub</h1>
+  <p>आपकी डिजिटल सेवाएं, एक ही जगह</p>
+  <div class="action-buttons">
+    <a id="callButton" href="tel:+910000000000" class="btn call-btn">📞 कॉल करें</a>
+    <a id="whatsappButton" href="#" class="btn whatsapp-btn" target="_blank" rel="noopener">💬 WhatsApp करें</a>
+  </div>
+</header>
+
+<nav>
+  <a href="#home">होम</a>
+  <a href="#services">सेवाएं</a>
+  <a href="#enquiry">Enquiry</a>
+  <a href="#admin">Admin Panel</a>
+</nav>
+
+<main class="container">
+
+<section id="home" class="hero">
+  <h2 style="color:white;border:0;margin-top:0">Welcome to Guddu Digital Hub</h2>
+  <p>ऑनलाइन फॉर्म, प्रिंटिंग, डॉक्यूमेंट एडिटिंग और अन्य डिजिटल सेवाओं के लिए संपर्क करें।</p>
+  <a href="#services" class="btn">सभी सेवाएं देखें</a>
+</section>
+
+<section id="services">
+  <h2>हमारी मुख्य सेवाएं</h2>
+  <div class="grid" id="serviceList"></div>
+</section>
+
+<section id="enquiry" class="card" style="margin-top:25px">
+  <h2>ऑनलाइन Enquiry करें</h2>
+
+  <form id="enquiryForm">
+    <label for="customerName"><b>आपका नाम</b></label>
+    <input id="customerName" required maxlength="100" placeholder="अपना पूरा नाम लिखें">
+
+    <label for="customerPhone"><b>मोबाइल नंबर</b></label>
+    <input id="customerPhone" required type="tel" inputmode="numeric"
+      pattern="[0-9]{10}" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
+
+    <label for="customerService"><b>सेवा चुनें</b></label>
+    <select id="customerService" required></select>
+
+    <label for="customerMessage"><b>अपनी जरूरत बताएं (Optional)</b></label>
+    <textarea id="customerMessage" rows="3" maxlength="1000"
+      placeholder="अपनी जरूरत या निर्देश लिखें"></textarea>
+
+    <button type="submit" style="width:100%">Enquiry सेव करें और WhatsApp खोलें</button>
+  </form>
+  <p id="formMessage" role="status" aria-live="polite"></p>
+</section>
+
+<section id="admin" class="card" style="margin-top:25px">
+  <h2>Admin Panel</h2>
+
+  <div id="loginBox">
+    <p class="small">डेमो पासवर्ड: guddu123</p>
+    <label for="adminPassword">Admin Password</label>
+    <input id="adminPassword" type="password" placeholder="पासवर्ड डालें">
+    <button id="loginButton" type="button">Login</button>
+    <p id="loginMessage" role="status"></p>
+  </div>
+
+  <div id="adminPanel" class="hidden">
+
+    <h3>➕ नई सेवा जोड़ें</h3>
+    <p class="small">यहाँ से अपनी वेबसाइट में नई सेवाएं जोड़ सकते हैं।</p>
+
+    <form id="addServiceForm">
+      <label for="newService"><b>नई सेवा का नाम</b></label>
+      <input id="newService" required maxlength="120"
+        placeholder="जैसे: फोटो प्रिंटिंग">
+      <button type="submit">सेवा जोड़ें</button>
+    </form>
+    <p id="serviceMessage" role="status"></p>
+
+    <h3>वर्तमान सेवाएं</h3>
+    <div id="adminServiceList"></div>
+
+    <hr style="margin:25px 0;border:0;border-top:1px solid #ddd">
+
+    <h3>📋 प्राप्त Enquiries</h3>
+    <div class="action-buttons" style="justify-content:flex-start">
+      <button id="exportButton" type="button">JSON डाउनलोड करें</button>
+      <button id="logoutButton" type="button" class="secondary">Logout</button>
+    </div>
+    <div id="enquiryList" style="margin-top:15px"></div>
+    <button id="clearButton" type="button" class="danger">सभी Enquiries हटाएं</button>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p>© 2026 Guddu Digital Hub | सर्वाधिकार सुरक्षित</p>
+  <p class="small" style="color:#cbd5e1">डिजिटल सेवाओं के लिए आपका विश्वसनीय केंद्र</p>
+</footer>
+
+<script>
+"use strict";
+
+/* =====================================
+   WEBSITE SETTINGS
+   यहाँ अपनी दुकान की जानकारी बदलें।
+===================================== */
+
+const CONFIG = {
+  shopName: "Guddu Digital Hub",
+
+  // अपना 10 अंकों का मोबाइल नंबर डालें।
+  // WhatsApp के लिए भारत का कोड 91 अपने आप जोड़ा जाएगा।
+  phoneNumber: "0000000000",
+
+  // अपना Admin पासवर्ड बदलें।
+  adminPassword: "guddu123"
+};
+
+/* =====================================
+   DEFAULT SERVICES
+   नई डिफॉल्ट सेवा जोड़ने के लिए नीचे
+   की सूची में एक नई लाइन जोड़ें।
+===================================== */
+
+const DEFAULT_SERVICES = [
+  "Online Form (सरकारी/प्राइवेट नौकरी)",
+  "Photo Editing (दो या अधिक फोटो जोड़ना)",
+  "A4 Document Edit",
+  "ID Card Services",
+  "Document Printing & Lamination",
+  "Professional Resume / CV",
+  "PDF Merge & Convert",
+  "अन्य डिजिटल सेवा"
+];
+
+const KEYS = {
+  services: "gdh_services_v2",
+  enquiries: "gdh_enquiries_v2"
+};
+
+const $ = id => document.getElementById(id);
+
+let isAdminLoggedIn = false;
+
+/* =====================================
+   LOCAL STORAGE
+===================================== */
+
+function readArray(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    if (!value) return [...fallback];
+
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [...fallback];
+  } catch (error) {
+    return [...fallback];
+  }
+}
+
+function saveArray(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function getServices() {
+  return readArray(KEYS.services, DEFAULT_SERVICES)
+    .filter(s => typeof s === "string" && s.trim());
+}
+
+function getEnquiries() {
+  return readArray(KEYS.enquiries, []);
+}
+
+/* =====================================
+   HEADER CONTACT SETTINGS
+===================================== */
+
+function setupContactButtons() {
+  const phone = CONFIG.phoneNumber.replace(/\D/g, "");
+  const validPhone = /^[0-9]{10}$/.test(phone);
+
+  $("callButton").href = validPhone
+    ? "tel:+91" + phone
+    : "#enquiry";
+
+  $("whatsappButton").href = validPhone
+    ? "https://wa.me/91" + phone
+    : "#enquiry";
+
+  if (!validPhone) {
+    $("whatsappButton").addEventListener("click", function(e) {
+      e.preventDefault();
+      alert("पहले CONFIG में अपना सही मोबाइल नंबर डालें।");
+    });
+  }
+}
+
+/* =====================================
+   CUSTOMER SERVICES
+===================================== */
+
+function renderServices() {
+  const list = $("serviceList");
+  const select = $("customerService");
+  const services = getServices();
+
+  list.replaceChildren();
+  select.replaceChildren();
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "सेवा चुनें";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  select.appendChild(placeholder);
+
+  if (services.length === 0) {
+    const message = document.createElement("p");
+    message.textContent = "अभी कोई सेवा उपलब्ध नहीं है।";
+    list.appendChild(message);
+  }
+
+  services.forEach(service => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const heading = document.createElement("h3");
+    heading.style.color = "#174b91";
+    heading.textContent = service;
+
+    const button = document.createElement("button");
+    button.textContent = "Enquiry करें";
+    button.style.width = "100%";
+
+    button.addEventListener("click", () => {
+      select.value = service;
+      $("enquiry").scrollIntoView({behavior: "smooth"});
+      $("customerName").focus({preventScroll: true});
+    });
+
+    card.append(heading, button);
+    list.appendChild(card);
+
+    const option = document.createElement("option");
+    option.value = service;
+    option.textContent = service;
+    select.appendChild(option);
+  });
+
+  if (isAdminLoggedIn) renderAdminServices();
+}
+
+/* =====================================
+   ENQUIRY FORM
+===================================== */
+
+$("enquiryForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const name = $("customerName").value.trim();
+  const phone = $("customerPhone").value.trim();
+  const service = $("customerService").value;
+  const message = $("customerMessage").value.trim();
+
+  if (!/^[0-9]{10}$/.test(phone)) {
+    $("formMessage").textContent = "कृपया सही 10 अंकों का मोबाइल नंबर डालें।";
+    return;
+  }
+
+  if (!getServices().includes(service)) {
+    $("formMessage").textContent = "कृपया उपलब्ध सेवाओं में से चुनें।";
+    return;
+  }
+
+  const enquiry = {
+    id: Date.now(),
+    name,
+    phone,
+    service,
+    message,
+    date: new Date().toLocaleString("hi-IN")
+  };
+
+  try {
+    const enquiries = getEnquiries();
+    enquiries.unshift(enquiry);
+    saveArray(KEYS.enquiries, enquiries);
+
+    $("formMessage").textContent =
+      "✓ Enquiry इस ब्राउज़र में सेव हो गई है। WhatsApp खुल रहा है।";
+
+    if (isAdminLoggedIn) renderEnquiries();
+
+    const whatsappMessage = [
+      CONFIG.shopName + " - नई Enquiry",
+      "",
+      "नाम: " + name,
+      "मोबाइल: " + phone,
+      "सेवा: " + service,
+      "विवरण: " + (message || "नहीं दिया गया")
+    ].join("\n");
+
+    const shopPhone = CONFIG.phoneNumber.replace(/\D/g, "");
+
+    if (/^[0-9]{10}$/.test(shopPhone)) {
+      const url = "https://wa.me/91" + shopPhone +
+        "?text=" + encodeURIComponent(whatsappMessage);
+
+      window.open(url, "_blank", "noopener");
+    } else {
+      $("formMessage").textContent =
+        "✓ Enquiry सेव हो गई। WhatsApp खोलने के लिए CONFIG में दुकान का सही नंबर डालें।";
+    }
+
+    this.reset();
+
+  } catch (error) {
+    $("formMessage").textContent =
+      "डेटा सेव नहीं हुआ। ब्राउज़र स्टोरेज या प्राइवेसी सेटिंग्स जांचें।";
+  }
+});
+
+/* =====================================
+   ADMIN LOGIN
+   नोट: यह केवल लोकल डेमो लॉगिन है।
+===================================== */
+
+$("loginButton").addEventListener("click", login);
+
+$("adminPassword").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") login();
+});
+
+function login() {
+  if ($("adminPassword").value === CONFIG.adminPassword) {
+    isAdminLoggedIn = true;
+
+    $("loginBox").classList.add("hidden");
+    $("adminPanel").classList.remove("hidden");
+    $("loginMessage").textContent = "";
+
+    $("adminPassword").value = "";
+
+    renderAdminServices();
+    renderEnquiries();
+  } else {
+    $("loginMessage").textContent = "गलत पासवर्ड। दोबारा कोशिश करें।";
+  }
+}
+
+$("logoutButton").addEventListener("click", function() {
+  isAdminLoggedIn = false;
+  $("adminPanel").classList.add("hidden");
+  $("loginBox").classList.remove("hidden");
+});
+
+/* =====================================
+   ADD NEW SERVICE
+===================================== */
+
+$("addServiceForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  if (!isAdminLoggedIn) return;
+
+  const name = $("newService").value.trim();
+
+  if (!name) return;
+
+  const services = getServices();
+
+  if (services.some(s => s.toLowerCase() === name.toLowerCase())) {
+    $("serviceMessage").textContent = "यह सेवा पहले से मौजूद है।";
+    return;
+  }
+
+  services.push(name);
+
+  try {
+    saveArray(KEYS.services, services);
+    $("newService").value = "";
+    $("serviceMessage").textContent = "✓ नई सेवा जोड़ दी गई।";
+
+    renderServices();
+  } catch (error) {
+    $("serviceMessage").textContent =
+      "सेवा सेव नहीं हुई। ब्राउज़र स्टोरेज जांचें।";
+  }
+});
+
+/* =====================================
+   ADMIN SERVICE LIST
+===================================== */
+
+function renderAdminServices() {
+  const list = $("adminServiceList");
+  list.replaceChildren();
+
+  getServices().forEach(service => {
+    const row = document.createElement("div");
+    row.className = "enquiry-item";
+
+    const title = document.createElement("strong");
+    title.textContent = service;
+
+    const remove = document.createElement("button");
+    remove.textContent = "हटाएं";
+    remove.className = "danger";
+    remove.style.marginLeft = "10px";
+    remove.style.padding = "7px 12px";
+
+    remove.addEventListener("click", () => {
+      if (!isAdminLoggedIn) return;
+
+      if (!confirm('क्या "' + service + '" सेवा हटानी है?')) return;
+
+      const updated = getServices().filter(s => s !== service);
+
+      try {
+        saveArray(KEYS.services, updated);
+        renderServices();
+      } catch (error) {
+        alert("सेवा हटाई नहीं जा सकी।");
+      }
+    });
+
+    row.append(title, document.createTextNode(" "), remove);
+    list.appendChild(row);
+  });
+}
+
+/* =====================================
+   ADMIN ENQUIRIES
+===================================== */
+
+function renderEnquiries() {
+  const list = $("enquiryList");
+  list.replaceChildren();
+
+  const enquiries = getEnquiries();
+
+  if (enquiries.length === 0) {
+    const empty = document.createElement("p");
+    empty.textContent = "अभी कोई Enquiry नहीं है।";
+    list.appendChild(empty);
+    return;
+  }
+
+  enquiries.forEach(item => {
+    const box = document.createElement("div");
+    box.className = "enquiry-item";
+
+    const details = document.createElement("p");
+    details.textContent =
+      "नाम: " + (item.name || "") +
+      "\nमोबाइल: " + (item.phone || "") +
+      "\nसेवा: " + (item.service || "") +
+      "\nविवरण: " + (item.message || "नहीं दिया गया") +
+      "\nतारीख: " + (item.date || "");
+
+    details.style.whiteSpace = "pre-line";
+
+    const whatsapp = document.createElement("a");
+    whatsapp.className = "btn whatsapp-btn";
+    whatsapp.textContent = "WhatsApp पर संपर्क करें";
+
+    const phone = String(item.phone || "").replace(/\D/g, "");
+
+    if (/^[0-9]{10}$/.test(phone)) {
+      whatsapp.href = "https://wa.me/91" + phone;
+      whatsapp.target = "_blank";
+      whatsapp.rel = "noopener";
+    } else {
+      whatsapp.href = "#";
+      whatsapp.addEventListener("click", e => e.preventDefault());
+    }
+
+    const remove = document.createElement("button");
+    remove.className = "danger";
+    remove.textContent = "यह Enquiry हटाएं";
+    remove.style.marginLeft = "8px";
+
+    remove.addEventListener("click", () => {
+      if (!isAdminLoggedIn) return;
+      if (!confirm("क्या यह Enquiry हटानी है?")) return;
+
+      try {
+        saveArray(KEYS.enquiries,
+          getEnquiries().filter(x => x.id !== item.id));
+        renderEnquiries();
+      } catch (error) {
+        alert("Enquiry हटाई नहीं जा सकी।");
+      }
+    });
+
+    box.append(details, whatsapp, document.createTextNode(" "), remove);
+    list.appendChild(box);
+  });
+}
+
+/* =====================================
+   DOWNLOAD ENQUIRIES
+===================================== */
+
+$("exportButton").addEventListener("click", function() {
+  if (!isAdminLoggedIn) return;
+
+  const data = {
+    shop: CONFIG.shopName,
+    exportedAt: new Date().toISOString(),
+    services: getServices(),
+    enquiries: getEnquiries()
+  };
+
+  const blob = new Blob(
+    [JSON.stringify(data, null, 2)],
+    {type: "application/json;charset=utf-8"}
+  );
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "guddu-digital-hub-backup.json";
+  link.click();
+
+  URL.revokeObjectURL(url);
+});
+
+/* =====================================
+   CLEAR ENQUIRIES
+===================================== */
+
+$("clearButton").addEventListener("click", function() {
+  if (!isAdminLoggedIn) return;
+
+  if (!confirm("क्या आप सभी Enquiries हमेशा के लिए हटाना चाहते हैं?")) {
+    return;
+  }
+
+  try {
+    saveArray(KEYS.enquiries, []);
+    renderEnquiries();
+  } catch (error) {
+    alert("डेटा हटाया नहीं जा सका।");
+  }
+});
+
+/* =====================================
+   START WEBSITE
+===================================== */
+
+setupContactButtons();
+renderServices();
+</script>
+</body>
+</html>
